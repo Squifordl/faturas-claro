@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import VendasAtual from './sales/VendasAtual';
 import './HomePage.css';
 
 const ITEMS_PER_PAGE = 20;
@@ -13,7 +14,7 @@ const HomePage = () => {
 
     useEffect(() => {
         const fetchSalesData = async () => {
-            const response = await fetch('http://localhost:3001/sales');
+            const response = await fetch('http://localhost:3001/api/sales');
             const data = await response.json();
 
             const sortedData = data.sort((a, b) => {
@@ -32,7 +33,7 @@ const HomePage = () => {
         };
 
         const fetchExpirationsData = async () => {
-            const response = await fetch('http://localhost:3001/expirations');
+            const response = await fetch('http://localhost:3001/api/expirations');
             const data = await response.json();
 
             const sortedExpirationsData = data.sort((a, b) => {
@@ -83,68 +84,75 @@ const HomePage = () => {
                 >
                     <option value="vendas">Vendas</option>
                     <option value="expirations">Vencimentos</option>
+                    <option value="vendasRealTime">Vendas em Tempo Real</option>
                 </select>
             </div>
             <section className="data-section">
-                <h2>{selectedOption === 'vendas' ? 'Vendas Recentes' : 'Vencimentos Próximos'}</h2>
-                {selectedOption === 'vendas' ? (
-                    <table className="data-table">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Cliente</th>
-                                <th>Data da Venda</th>
-                                <th>Valor Total Normal</th>
-                                <th>Valor Total Promocional</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {salesData.slice(startIdx, endIdx).map((sale, index) => {
-                                const dataVendaValida = moment(sale.dataVenda, 'DD/MM/YYYY HH:mm', true).isValid();
-                                const dataVendaFormatada = dataVendaValida
-                                    ? sale.dataVenda
-                                    : "Sem data de Finalização";
-
-                                return (
-                                    <tr key={index}>
-                                        <td>{sale.codigo}</td>
-                                        <td>{sale.cliente}</td>
-                                        <td>{dataVendaFormatada}</td>
-                                        <td>{sale.valorTotalNormal}</td>
-                                        <td>{sale.valorTotalPromocional}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                {selectedOption === 'vendasRealTime' ? (
+                    <VendasAtual />
                 ) : (
-                    <table className="data-table">
-                        <thead>
-                            <tr>
-                                <th>Cliente</th>
-                                <th>Contrato</th>
-                                <th>Cidade</th>
-                                <th>Data de Vencimento</th>
-                                <th>Dias para Vencer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {expirationsData.slice(startIdx, endIdx).map((expiration, index) => (
-                                <tr key={index}>
-                                    <td className="cliente">{expiration.cliente}</td>
-                                    <td className="contrato">{expiration.contrato}</td>
-                                    <td className="cidade">{expiration.cidade}</td>
-                                    <td className="dataVencimento">{expiration.dataVencimento}</td>
-                                    <td className="diasParaVencer">{expiration.diasParaVencimento}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <>
+                        <h2>{selectedOption === 'vendas' ? 'Vendas Recentes' : 'Vencimentos Próximos'}</h2>
+                        {selectedOption === 'vendas' ? (
+                            <table className="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Cliente</th>
+                                        <th>Data da Venda</th>
+                                        <th>Valor Total Normal</th>
+                                        <th>Valor Total Promocional</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {salesData.slice(startIdx, endIdx).map((sale, index) => {
+                                        const dataVendaValida = moment(sale.dataVenda, 'DD/MM/YYYY HH:mm', true).isValid();
+                                        const dataVendaFormatada = dataVendaValida
+                                            ? sale.dataVenda
+                                            : "Sem data de Finalização";
+
+                                        return (
+                                            <tr key={index}>
+                                                <td>{sale.codigo}</td>
+                                                <td>{sale.cliente}</td>
+                                                <td>{dataVendaFormatada}</td>
+                                                <td>{sale.valorTotalNormal}</td>
+                                                <td>{sale.valorTotalPromocional}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <table className="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Contrato</th>
+                                        <th>Cidade</th>
+                                        <th>Data de Vencimento</th>
+                                        <th>Dias para Vencer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {expirationsData.slice(startIdx, endIdx).map((expiration, index) => (
+                                        <tr key={index}>
+                                            <td className="cliente">{expiration.cliente}</td>
+                                            <td className="contrato">{expiration.contrato}</td>
+                                            <td className="cidade">{expiration.cidade}</td>
+                                            <td className="dataVencimento">{expiration.dataVencimento}</td>
+                                            <td className="diasParaVencer">{expiration.diasParaVencimento}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                        <div className="pagination">{paginationButtons}</div>
+                    </>
                 )}
-                <div className="pagination">{paginationButtons}</div>
             </section>
         </div>
     );
-};
+}
 
-export default HomePage;
+export default HomePage
