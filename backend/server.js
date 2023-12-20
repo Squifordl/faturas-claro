@@ -132,12 +132,12 @@ app.get('/api/real-time-sales', async (req, res) => {
             const salesData = rows.slice(1)
                 .map(row => ({
                     dataVenda: row[1],
-                    nomeCompleto: row[5].toUpperCase() || '',
+                    nomeCompleto: row[5] || '',
                     cpf: row[7] || '',
                     fone: row[11] || '',
-                    cidade: row[17].toUpperCase() || '',
-                    vendedor: row[2].toUpperCase() || '',
-                    status: row[3].toUpperCase() || ''
+                    cidade: row[17] || '',
+                    vendedor: row[2] || '',
+                    status: row[3] || ''
                 }))
                 .filter(sale => sale.nomeCompleto && sale.cpf && sale.fone && sale.cidade && sale.vendedor)
                 .sort((a, b) => moment(b.dataVenda, 'DD/MM/YYYY HH:mm').diff(moment(a.dataVenda, 'DD/MM/YYYY HH:mm')));

@@ -53,17 +53,17 @@ const VendasAtual = () => {
 
     return (
         <div className="vendas-container">
-            {isLoadingVendas ? (
+            {isLoadingVendas ? ( 
                 <div className="loader"></div>
             ) : realTimeSales.length > 0 ? (
                 realTimeSales.slice(1).map((sale, index) => (
                     <div className="venda-item" key={index}>
-                        <p>Nome: {sale.nomeCompleto}</p>
+                        <p>Nome: {sale.nomeCompleto.toUpperCase()}</p>
                         <p>CPF: {sale.cpf}</p>
                         <p>Telefone: {sale.fone}</p>
-                        <p>Cidade: {sale.cidade}</p>
-                        <p>Vendedor: {sale.vendedor}</p>
-                        <p>Status: {sale.status}</p>
+                        <p>Cidade: {sale.cidade.toUpperCase()}</p>
+                        <p>Vendedor: {sale.vendedor.toUpperCase()}</p>
+                        <p>Status: {sale.status.toUpperCase()}</p>
                         <button onClick={() => sendBiometryRequest(sale.cpf, sale.fone)}>
                             Gerar Biometria
                         </button>
