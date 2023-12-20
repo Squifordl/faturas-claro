@@ -15,7 +15,8 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.resolve(__dirname, '../frontend')));
 const DATA_PATH = path.join(__dirname, 'data.json');
 
 app.get('/api/sales', (req, res) => {
@@ -207,6 +208,8 @@ const closeServer = () => {
 };
 
 process.on('SIGINT', closeServer);
-
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend", "index.html"));
+});
 const port = process.env.PORT || 3002;
 app.listen(port, () => console.log(`Servidor rodando em https://localhost:${port}`));
