@@ -14,7 +14,7 @@ const HomePage = () => {
 
     useEffect(() => {
         const fetchSalesData = async () => {
-            const response = await fetch('/api/sales');
+            const response = await fetch('http://3.84.128.5:3001/api/sales');
             const data = await response.json();
 
             const sortedData = data.sort((a, b) => {
@@ -33,7 +33,7 @@ const HomePage = () => {
         };
 
         const fetchExpirationsData = async () => {
-            const response = await fetch('/api/expirations');
+            const response = await fetch('http://3.84.128.5:3001/api/expirations');
             const data = await response.json();
 
             const sortedExpirationsData = data.sort((a, b) => {
