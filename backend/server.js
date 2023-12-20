@@ -10,7 +10,10 @@ const server = http.createServer((req, res) => {
     res.end('Hello, World!');
 });
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'https://siteeeeeee.vercel.app',
+    credentials: true
+}));
 app.use(express.json());
 
 const DATA_PATH = path.join(__dirname, 'data.json');
