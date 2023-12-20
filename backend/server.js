@@ -4,11 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { google } = require('googleapis');
 const moment = require('moment-timezone');
-const http = require('http');
 
-const server = http.createServer((req, res) => {
-    res.end('Hello, World!');
-});
 const app = express();
 app.use(cors({
     origin: 'https://siteeeeeee.vercel.app',
@@ -207,7 +203,6 @@ const closeServer = () => {
     });
 };
 
-process.on('SIGINT', closeServer);
 app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../frontend", "index.html"));
 });
