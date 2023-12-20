@@ -206,4 +206,4 @@ const closeServer = () => {
 process.on('SIGINT', closeServer);
 
 const port = process.env.PORT || 3001;
-app.listen(port, () => console.log(`Servidor rodando em http://localhost:${port}`));
+app.listen(port, () => console.log(`Servidor rodando em https://localhost:${port}`));
