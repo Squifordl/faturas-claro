@@ -4,7 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const { google } = require('googleapis');
 const moment = require('moment-timezone');
+const http = require('http');
 
+const server = http.createServer((req, res) => {
+    res.end('Hello, World!');
+});
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -191,6 +195,15 @@ app.post('/api/generate-biometry', async (req, res) => {
         res.status(500).json({ message: "Erro interno do servidor" });
     }
 });
-
+const closeServer = () => {
+    console.log('Encerrando o servidor...');
+    server.close(() => {
+      console.log('Servidor encerrado.');
+      process.exit(0);
+    });
+  };
+  
+  process.on('SIGINT', closeServer);
+  
 const port = 3001;
 app.listen(port, () => console.log(`Servidor rodando em http://localhost:${port}`));
