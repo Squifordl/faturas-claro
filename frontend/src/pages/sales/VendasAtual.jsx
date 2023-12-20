@@ -9,7 +9,7 @@ const VendasAtual = () => {
 
     const fetchRealTimeSales = async () => {
         try {
-            const response = await fetch('https://3.84.128.5:3001/api/real-time-sales');
+            const response = await fetch('https://3.84.128.5:3002/api/real-time-sales');
             const data = await response.json();
             console.log(data)
             setRealTimeSales(data);
@@ -19,7 +19,7 @@ const VendasAtual = () => {
     };
     const sendBiometryRequest = async (cpf, telefone) => {
         try {
-            const response = await fetch('https://3.84.128.5:3001/api/generate-biometry', {
+            const response = await fetch('https://3.84.128.5:3002/api/generate-biometry', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
