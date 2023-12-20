@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 import './Login.css';
 
 const Login = ({ onLogin }) => {
@@ -10,16 +11,18 @@ const Login = ({ onLogin }) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await axios({
+                method: 'post',
+                url: 'https://siteeeeeee.vercel.app/api/login',
+                data: {
+                    email,
+                    password
                 },
-                body: JSON.stringify({ email, password }),
+                withCredentials: true
             });
 
-            if (response.ok) {
-                const data = await response.json();
+            if (response.status === 200) {
+                const data = response.data;
                 if (data.message === "Login successful") {
                     localStorage.setItem('isAuthenticated', JSON.stringify(true));
                     onLogin(true);
