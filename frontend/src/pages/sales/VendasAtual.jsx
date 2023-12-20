@@ -6,6 +6,7 @@ const VendasAtual = () => {
     const [realTimeSales, setRealTimeSales] = useState([]);
     const [biometryLink, setBiometryLink] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [isLoadingVendas, setIsLoadingVendas] = useState(true);
 
     const fetchRealTimeSales = async () => {
         try {
@@ -13,8 +14,10 @@ const VendasAtual = () => {
             const data = await response.json();
             console.log(data)
             setRealTimeSales(data);
+            setIsLoadingVendas(false);
         } catch (error) {
             console.error('Erro ao buscar vendas em tempo real:', error);
+            setIsLoadingVendas(false);
         }
     };
     const sendBiometryRequest = async (cpf, telefone) => {
@@ -50,7 +53,9 @@ const VendasAtual = () => {
 
     return (
         <div className="vendas-container">
-            {realTimeSales.length > 0 ? (
+            {isLoadingVendas ? (
+                <div className="loader"></div>
+            ) : realTimeSales.length > 0 ? (
                 realTimeSales.slice(1).map((sale, index) => (
                     <div className="venda-item" key={index}>
                         <p>Nome: {sale.nomeCompleto}</p>
