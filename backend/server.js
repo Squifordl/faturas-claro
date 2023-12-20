@@ -198,12 +198,12 @@ app.post('/api/generate-biometry', async (req, res) => {
 const closeServer = () => {
     console.log('Encerrando o servidor...');
     server.close(() => {
-      console.log('Servidor encerrado.');
-      process.exit(0);
+        console.log('Servidor encerrado.');
+        process.exit(0);
     });
-  };
-  
-  process.on('SIGINT', closeServer);
-  
-const port = 3001;
+};
+
+process.on('SIGINT', closeServer);
+
+const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Servidor rodando em http://localhost:${port}`));
