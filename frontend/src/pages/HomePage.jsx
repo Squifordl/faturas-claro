@@ -11,24 +11,6 @@ const HomePage = () => {
     const [expirationsData, setExpirationsData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState('vendas');
-    
-    useEffect(() => {
-        localStorage.setItem('currentPage', currentPage.toString());
-        localStorage.setItem('selectedOption', selectedOption);
-    }, [currentPage, selectedOption]);
-
-    useEffect(() => {
-        const savedPage = localStorage.getItem('currentPage');
-        const savedOption = localStorage.getItem('selectedOption');
-
-        if (savedPage) {
-            setCurrentPage(parseInt(savedPage, 10));
-        }
-
-        if (savedOption) {
-            setSelectedOption(savedOption);
-        }
-    }, []);
 
     useEffect(() => {
         const fetchSalesData = async () => {
@@ -90,6 +72,23 @@ const HomePage = () => {
             </button>
         );
     }
+    useEffect(() => {
+        localStorage.setItem('currentPage', currentPage.toString());
+        localStorage.setItem('selectedOption', selectedOption);
+    }, [currentPage, selectedOption]);
+
+    useEffect(() => {
+        const savedPage = localStorage.getItem('currentPage');
+        const savedOption = localStorage.getItem('selectedOption');
+
+        if (savedPage) {
+            setCurrentPage(parseInt(savedPage, 10));
+        }
+
+        if (savedOption) {
+            setSelectedOption(savedOption);
+        }
+    }, []);
 
     return (
         <div className="homepage-container">
