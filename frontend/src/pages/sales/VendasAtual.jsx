@@ -7,7 +7,7 @@ const VendasAtual = () => {
     const [biometryLink, setBiometryLink] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [isLoadingVendas, setIsLoadingVendas] = useState(true);
-    const [isLoadingBiometria, setIsLoadingBiometria] = useState(false); // Novo estado para controlar o loader de biometria
+    const [isLoadingBiometria, setIsLoadingBiometria] = useState(false);
 
     const fetchRealTimeSales = async () => {
         try {
