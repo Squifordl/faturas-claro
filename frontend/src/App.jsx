@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
+import Faturas from './pages/sales/Cpf';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -56,8 +57,9 @@ function App() {
             </>
           )} />
         <Route path="/" element={isAuthenticated ? <HomePage onLogout={handleLogout} /> : <Navigate to="/login" />} />
-      </Routes>
-    </Router>
+        <Route path="/contract" element={<Faturas/>} />
+      </Routes >
+    </Router >
   );
 }
 
