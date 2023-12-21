@@ -74,7 +74,7 @@ h2 {
 
 .data-table th.cliente,
 .data-table td.cliente {
-    text-align: left;
+    text-align: center;
 }
 
 .data-table th.contrato,
