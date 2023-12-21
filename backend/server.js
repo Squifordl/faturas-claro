@@ -198,7 +198,7 @@ app.post('/api/generate-biometry', async (req, res) => {
 });
 
 
-app.post('/api/buscar-fatura', async (req, res) => {
+app.get('/api/buscar-fatura', async (req, res) => {
     const { cpf } = req.body;
     let user
 
