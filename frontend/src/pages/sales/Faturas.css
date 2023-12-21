@@ -1,0 +1,117 @@
+.homepage-container {
+    background-color: #34495e;
+    color: white;
+    width: 100%;
+    max-width: 1200px;
+    margin: 100px auto;
+    border-radius: 8px;
+    min-height: 100vh;
+}
+
+.label-cpf {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.input-cpf,
+.button-buscar {
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.input-cpf:focus,
+.button-buscar:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.button-buscar {
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-buscar:hover {
+    background-color: #2980b9;
+}
+
+.select-status::after {
+    content: '▼';
+    font-size: 12px;
+    position: absolute;
+    right: 15px;
+    top: calc(50% - 2px);
+    pointer-events: none;
+    color: #34495e;
+}
+
+.error {
+    color: #ff0000;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.fatura {
+    background-color: #34495e;
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+h2 {
+    font-size: 20px;
+    color: #ecf0f1;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #ecf0f1;
+}
+
+.img-qrcode {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.html-container {
+    background-color: #34495e;
+    color: #ecf0f1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.html-container p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #ecf0f1;
+}
+
+.html-container h2 {
+    font-size: 20px;
+    color: #ecf0f1;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.html-container .img-qrcode {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}

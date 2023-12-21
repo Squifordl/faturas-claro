@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const pdf = require('html-pdf');
 const fs = require('fs');
 const path = require('path');
 const { google } = require('googleapis');
@@ -7,10 +8,7 @@ const moment = require('moment-timezone');
 const axios = require('axios')
 
 const app = express();
-app.use(cors({
-    origin: 'https://siteeeeeee.vercel.app',
-    credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, '../frontend')));
@@ -196,11 +194,25 @@ app.post('/api/generate-biometry', async (req, res) => {
         res.status(500).json({ message: "Erro interno do servidor" });
     }
 });
+const generatePDF = (htmlContent) => {
+    return new Promise((resolve, reject) => {
+        const options = { format: 'Letter' };
 
+        pdf.create(htmlContent, options).toFile('output.pdf', (err, res) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve('output.pdf');
+            }
+        });
+    });
+};
 
-app.get('/api/buscar-fatura', async (req, res) => {
+app.post('/api/buscar', async (req, res) => {
+    console.log('veioooo')
     const { cpf } = req.body;
     let user
+    let user2
 
     const url = 'https://api.claro.com.br/residential/v1/easy-invoices/contracts';
 
@@ -216,7 +228,9 @@ app.get('/api/buscar-fatura', async (req, res) => {
 
     await axios.get(url, { headers })
         .then((response) => {
+            console.log(response.data)
             user = response.data.contracts[0].identifier
+            user2 = response.data.contracts[0].identifier
         })
         .catch((error) => {
             console.error(error);
@@ -248,8 +262,32 @@ app.get('/api/buscar-fatura', async (req, res) => {
             console.error('Error:', error);
         });
 
-    console.log(user)
-    res.json(user);
+    const urlll = `https://api.claro.com.br/residential/v1/easy-invoices/invoices/${user2}/${user.easyInvoices[0].identifier}/preview`;
+
+    const headersss = {
+        'Accept': 'application/json, text/plain, */*',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Origin': 'https://minhaclaroresidencial.claro.com.br',
+        'Sec-Ch-Ua': '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+        'Sec-Ch-Ua-Mobile': '?0',
+        'Sec-Ch-Ua-Platform': '"Windows"',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-site',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'X-Captcha-Token': '03AFcWeA7j99QBA1ZCdqhMwaDGlRAbOI_9tZAulLihu16tWknbxU2n-ouBcoIt_LDvoa3S1T8Rl86bKOvacMCzFQM1rK1IBICUke05SPwAyDBQKlHp5dFNlSSKDTBwmxiA24yaCzggqc5ixxcmV2QzusK1HKqQk_mlwjQzQboxp306ztPBcVPwwIiYmVCymCcaG6do2EkbRPM4bdpOrdTSAthY95Rc0GNRCUY-rAeK3kStQnwQaOQENUCHn8OnQWTolaA86csV4-E_OGkzLnQL8IWBgemOrb_3PWrG_byC7dwETL0IMSbNltWqrQmzjI3-vgxWO58LCuju-9cHzMAz11cz7e_EMi_GaeCQ2187U0_igS8wjGBapVs5Ui4r-rXxgrOBDICwI2ubszLdlejEBfWR3TKO1PT7q8UsZPT4yuNnSOKNYxuAR_QfEVun_LGIEnhXjfRf5Z9-GodW0BqkuuwrrlVW1waUkQ6zJ42qA5sFDohN6Y2sQBJGKpbvScPDy9VMIuoVHj2HWjru8S4q-PlGEYm3VYEYl69vTOUtiqKYSJ6jyvQY8T3uD2oQQZRL5dF52jKw6pJbR81Vy-NQF1jbLKo6rTkZSYZvFdj8vatDCdSwFD5JhtPNHtSbzPthQYRj8bTaWl4wNUSwjftJ0rmKP_pSQFUoUGt0aBIVdPpSlfd8xGHo0GvPJ8yhcdFoGyXceIflSEcSqpXhBlca4m7bEZZlZdAeG57ZUA3KRXsRb5_ixOmN-omFjW5_84lbBoJi2BdTk0DbiCg_DnDPRL8_CghF31thPHwcYNLY0TzREAopIMgq7nul8Hx6xydaoaOXu7O4I9UHvZskLJ4KlLk9UVo8LN4q9FhaGiNKjSm7gCBZnqxb8RWG-k1e1cGhcs9G6b0Y3h0RWjxrfip9ukjs3kqJlDKRibKiNs7KGf8WeylPXzGDj4BS0_C2sATH3HwPYBDS6uT71ELCViJHPZee0VGRfKqV-J64SoO08NMaAxrmLTEMETmVrmLdSURzIuQ9uh5FEPcv_9qUDC8v8VqWMa0feLwYQnHcu7tl2fQOEA5eM9c9Yq5vbM9jqMjvF2Iiu28Wo9t6WyEgJvwm8L-6WpF10ZZDBygf7-VTi_QmJd8NCxCG8KDxKSwpIrx8j4PoK4Z1g_LgcGqvzkJeIexfUu0zP3O6sXSNAnmujSW1juVZjuV3zZoSV6ZwkvlKo5YqfIK3kJm34LA2cj3t_vVpoX5FFpFhMCFnuV4ruJ2luIyfbWrhg9OawEAvYL0MgssdSKC2P-AS-F7aeIswmtUxnBKbkrDw8VSsvjQxvAwFnrGrmRo0kU3oySsQ-jbeZQWStdEaSSBIc3123O8yj9Z3lJamLu0yVzdB7RdZhVKJT2N8zqnplywVK5nEYRbcUEq2zqJknJw7CHUPqdDj822XV42pSuP2deiJLqt9erfrtLt06ymt_jg9yQzDiluytr-fl-nahEE8gwia3RqKzjmxbawTTjUv4a4dxyM-XHW-l4tOAGn3Ic_zwQK74I0PWJo_TLa47jXgiN--DCB5BLo1dPo_FkeMni8bLIbtFOiGgS7YFLdLBUm3lKP-ApsFHo1KSGoslJvsvimQ4vFCgMCjYMUj3gJieZpIpTFl70HXVW2j10_LDUB_kynBMzYZ9fJo-nV90sEl9Bl-AsFgnM7qaMnfwOlh_g',
+        'X-Client-Key': 'xztFeG6jppikbqaUUmWi4YmNspOKwSAg'
+    };
+    let html
+    await axios.get(urlll, { headers: headersss })
+        .then((response) => {
+            html = response.data
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    res.json({ user: user, html: html });
 });
 
 app.get("*", (req, res) => {

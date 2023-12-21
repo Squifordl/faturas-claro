@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import Login from './pages/Login';
 import HomePage from './pages/HomePage';
-import Faturas from './pages/sales/Cpf';
+import Faturas from './pages/sales/Faturas';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
