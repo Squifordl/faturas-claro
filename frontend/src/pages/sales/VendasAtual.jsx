@@ -7,6 +7,7 @@ const VendasAtual = () => {
     const [biometryLink, setBiometryLink] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [isLoadingVendas, setIsLoadingVendas] = useState(true);
+    const [isLoadingBiometria, setIsLoadingBiometria] = useState(false); // Novo estado para controlar o loader de biometria
 
     const fetchRealTimeSales = async () => {
         try {
@@ -21,6 +22,7 @@ const VendasAtual = () => {
         }
     };
     const sendBiometryRequest = async (cpf, telefone) => {
+        setIsLoadingBiometria(true);
         try {
             const response = await fetch('/api/generate-biometry', {
                 method: 'POST',
@@ -42,6 +44,8 @@ const VendasAtual = () => {
             }
         } catch (error) {
             console.error('Erro ao enviar biometria:', error);
+        } finally {
+            setIsLoadingBiometria(false);
         }
     };
 
@@ -53,7 +57,7 @@ const VendasAtual = () => {
 
     return (
         <div className="vendas-container">
-            {isLoadingVendas ? ( 
+            {isLoadingVendas ? (
                 <div className="loader"></div>
             ) : realTimeSales.length > 0 ? (
                 realTimeSales.slice(1).map((sale, index) => (
@@ -65,7 +69,11 @@ const VendasAtual = () => {
                         <p>Vendedor: {sale.vendedor.toUpperCase()}</p>
                         <p>Status: {sale.status.toUpperCase()}</p>
                         <button onClick={() => sendBiometryRequest(sale.cpf, sale.fone)}>
-                            Gerar Biometria
+                            {isLoadingBiometria ? (
+                                <div className="loader"></div>
+                            ) : (
+                                'Gerar Biometria'
+                            )}
                         </button>
                     </div>
                 ))
