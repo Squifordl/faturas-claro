@@ -31,7 +31,7 @@ const Faturas = () => {
   };
 
   return (
-    <div className="homepage-container">
+    <div className="faturas-container">
       <h1>Busca de Faturas</h1>
       <label className='label-cpf'>
         CPF do Cliente:
