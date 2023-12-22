@@ -2,10 +2,11 @@
     background-color: #34495e;
     color: white;
     width: 100%;
-    max-width: 1200px;
+    max-width: 600px;
     margin: 100px auto;
     border-radius: 8px;
     min-height: 100vh;
+    text-align: center;
 }
 
 .label-cpf {
@@ -15,8 +16,8 @@
 
 .input-cpf,
 .button-buscar {
-    width: 90%;
-    padding: 12px 20px;
+    width: calc(100% - 20px);
+    padding: 12px 10px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
@@ -37,6 +38,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: calc(100% - 20px);
 }
 
 .button-buscar:hover {
