@@ -9,7 +9,7 @@ const Faturas = () => {
 
   const handleBuscarFatura = async () => {
     try {
-      const response = await fetch('http://localhost:3002/api/buscar', {
+      const response = await fetch('/api/buscar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
