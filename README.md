@@ -8,7 +8,7 @@ Este é um projeto simples para buscar e exibir informações de faturas da Clar
 2. Clone este repositório para o seu ambiente local.
 
 ```bash
-git clone https://github.com/seu-usuario/claro-faturas-api.git
+git clone https://github.com/Squifordl/claro-faturas-api.git
 cd claro-faturas-api
 ```
 
