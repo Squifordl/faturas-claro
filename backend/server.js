@@ -16,7 +16,6 @@ app.post('/api/buscar', async (req, res) => {
 
     const url = 'https://api.claro.com.br/residential/v1/easy-invoices/contracts';
 
-    console.log(cpf)
     const headers = {
         'Access-Control-Allow-Credentials': 'true',
         'Access-Control-Allow-Origin': 'https://minhaclaroresidencial.claro.com.br',
@@ -31,7 +30,6 @@ app.post('/api/buscar', async (req, res) => {
         const response = await axios.get(url, { headers });
         user = response.data.contracts[0].identifier;
         user2 = response.data.contracts[0].identifier;
-        console.log(response.data)
     } catch (error) {
         console.error(error);
     }
@@ -101,7 +99,6 @@ app.post('/api/buscar', async (req, res) => {
 
             const pixPromise = axios.get(urlPIX, { headers: headersss })
                 .then((response) => {
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -109,7 +106,6 @@ app.post('/api/buscar', async (req, res) => {
 
             const resultPromise = Promise.all([previewPromise, pixPromise])
                 .then(() => {
-                    console.log(identifier)
                     return { user: identifier, html: html };
                 });
 

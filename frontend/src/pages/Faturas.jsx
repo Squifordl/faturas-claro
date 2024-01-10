@@ -16,7 +16,6 @@ const Faturas = () => {
         },
         body: JSON.stringify({ cpf }),
       });
-      console.log(response)
       if (response.ok) {
         const data = await response.json();
         setFaturas(data);
@@ -61,7 +60,6 @@ const Faturas = () => {
             <div className="fatura" key={index}>
               <h3>Fatura {index + 1}</h3>
               <div key={index}>
-                {console.log(fatura)}
                 <p>Data de Criação: {fatura.user.creationDate}</p>
                 <p>Data de Vencimento: {fatura.user.dueDate}</p>
                 <p>Valor da Fatura: {fatura.user.invoiceAmout}</p>
