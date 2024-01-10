@@ -6,9 +6,11 @@ const Faturas = () => {
   const [faturas, setFaturas] = useState([]);
   const [htmls, setHtmls] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleBuscarFatura = async () => {
     try {
+      setLoading(true);
       const response = await fetch('/api/buscar', {
         method: 'POST',
         headers: {
@@ -39,6 +41,8 @@ const Faturas = () => {
       setTimeout(() => {
         setError(null);
       }, 5000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,8 +53,8 @@ const Faturas = () => {
         CPF do Cliente:
         <input className="input-cpf" type="text" value={cpf} onChange={(e) => setCpf(e.target.value)} />
       </label>
-      <button className="button-buscar" onClick={handleBuscarFatura}>
-        Buscar Fatura
+      <button className="button-buscar" onClick={handleBuscarFatura} disabled={loading}>
+        {loading ? 'Buscando...' : 'Buscar Fatura'}
       </button>
       {error && <p className="error">{error}</p>}
       {faturas.length > 0 && (
