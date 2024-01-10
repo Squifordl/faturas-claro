@@ -69,6 +69,13 @@ const Faturas = () => {
       {error && <p className="error">{error}</p>}
       {faturas.length > 0 && (
         <div>
+          <p className="info-message">
+            Esta fatura é uma Fatura Fácil e contém apenas informações básicas.
+            Para detalhes sobre gastos, usos, e endereços, acesse o site
+            <a href="https://minhaclaroresidencial.claro.com.br/" target="_blank" rel="noopener noreferrer">
+              https://minhaclaroresidencial.claro.com.br/
+            </a>.
+          </p>
           <h2>Faturas Encontradas</h2>
           {faturas.map((fatura, index) => (
             <div className="fatura" key={index}>

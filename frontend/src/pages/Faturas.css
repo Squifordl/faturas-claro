@@ -24,6 +24,21 @@ body {
     word-wrap: break-word;
 }
 
+.info-message {
+    font-size: 14px;
+    color: #3498db;
+    margin-top: 10px;
+}
+
+.info-message a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.info-message a:hover {
+    text-decoration: underline;
+}
+
 .button-copiar {
     background-color: #2ecc71;
     color: #ffffff;
