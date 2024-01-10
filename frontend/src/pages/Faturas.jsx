@@ -70,11 +70,11 @@ const Faturas = () => {
       {faturas.length > 0 && (
         <div>
           <p className="info-message">
-            Esta fatura é uma Fatura Fácil e contém apenas informações básicas.
-            Para detalhes sobre gastos, usos, e endereços, acesse o site
-            <a href="https://minhaclaroresidencial.claro.com.br/" target="_blank" rel="noopener noreferrer">
-              https://minhaclaroresidencial.claro.com.br/
-            </a>.
+            <strong>Esta fatura é uma Fatura Fácil e contém apenas informações básicas.
+              Para detalhes sobre gastos, usos, e endereços, acesse o site{' '}
+              <a href="https://minhaclaroresidencial.claro.com.br/" target="_blank" rel="noopener noreferrer">
+                https://minhaclaroresidencial.claro.com.br/
+              </a>.</strong>
           </p>
           <h2>Faturas Encontradas</h2>
           {faturas.map((fatura, index) => (
