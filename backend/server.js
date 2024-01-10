@@ -96,9 +96,10 @@ app.post('/api/buscar', async (req, res) => {
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-
+            let pix
             const pixPromise = axios.get(urlPIX, { headers: headersss })
                 .then((response) => {
+                    pix = response.data
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -106,7 +107,7 @@ app.post('/api/buscar', async (req, res) => {
 
             const resultPromise = Promise.all([previewPromise, pixPromise])
                 .then(() => {
-                    return { user: identifier, html: html };
+                    return { user: identifier, pix, html: html };
                 });
 
             previewPromises.push(resultPromise);

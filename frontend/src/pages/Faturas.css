@@ -19,6 +19,26 @@ body {
     color: #ffffff;
 }
 
+.pix-code {
+    display: block;
+    word-wrap: break-word;
+}
+
+.button-copiar {
+    background-color: #2ecc71;
+    color: #ffffff;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-copiar:hover {
+    background-color: #27ae60;
+}
+
 .input-cpf,
 .button-buscar {
     width: calc(100% - 20px);

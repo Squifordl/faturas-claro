@@ -7,6 +7,7 @@ const Faturas = () => {
   const [htmls, setHtmls] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(null);
 
   const handleBuscarFatura = async () => {
     try {
@@ -18,6 +19,7 @@ const Faturas = () => {
         },
         body: JSON.stringify({ cpf }),
       });
+
       if (response.ok) {
         const data = await response.json();
         setFaturas(data);
@@ -46,6 +48,14 @@ const Faturas = () => {
     }
   };
 
+  const handleCopyCode = (code) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => {
+      setCopiedCode(null);
+    }, 3000);
+  };
+
   return (
     <div className="faturas-container">
       <h1>Busca de Faturas</h1>
@@ -64,12 +74,41 @@ const Faturas = () => {
             <div className="fatura" key={index}>
               <h3>Fatura {index + 1}</h3>
               <div key={index}>
-                <p>Data de Criação: {fatura.user.creationDate}</p>
-                <p>Data de Vencimento: {fatura.user.dueDate}</p>
-                <p>Valor da Fatura: {fatura.user.invoiceAmout}</p>
-                <p>Boleto: {fatura.user.digitableLine}</p>
+                <p><strong>Data de Criação:</strong> {fatura.user.creationDate}</p>
+                <p><strong>Data de Vencimento:</strong> {fatura.user.dueDate}</p>
+                <p><strong>Valor da Fatura:</strong> {fatura.user.invoiceAmout}</p>
+                <p><strong>Boleto:</strong> {fatura.user.digitableLine}</p>
+                {fatura.user.digitableLine && fatura.user.digitableLine && (
+                  <button
+                    className="button-copiar"
+                    onClick={() => handleCopyCode(fatura.user.digitableLine)}
+                  >
+                    {copiedCode === fatura.user.digitableLine ? 'Copiado!' : 'Copiar Código'}
+                  </button>
+                )}
+                <p>
+                  <strong>Pix:</strong>{' '}
+                  <span className="pix-code">
+                    {fatura.pix.data && fatura.pix.data.payload
+                      ? fatura.pix.data.payload
+                      : 'Não disponível nessa fatura'}
+                  </span>
+                </p>
+                {fatura.pix.data && fatura.pix.data.payload && (
+                  <button
+                    className="button-copiar"
+                    onClick={() => handleCopyCode(fatura.pix.data.payload)}
+                  >
+                    {copiedCode === fatura.pix.data.payload ? 'Copiado!' : 'Copiar Código'}
+                  </button>
+                )}
                 <hr />
-                <div className="html-container" dangerouslySetInnerHTML={{ __html: htmls && htmls[index] ? htmls[index] : '' }} />
+                <div
+                  className="html-container"
+                  dangerouslySetInnerHTML={{
+                    __html: htmls && htmls[index] ? htmls[index] : '',
+                  }}
+                />
               </div>
             </div>
           ))}
