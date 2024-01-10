@@ -45,7 +45,6 @@ body {
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: calc(100% - 20px);
 }
 
 .button-buscar:hover {
